@@ -1,0 +1,12 @@
+# to ignore files 
+*.xlsx
+.secret_keys
+
+# to ignore folders
+evaluaciones/
+resultados/
+__pycache__/
+
+# virtual environment
+venv_venture
+
