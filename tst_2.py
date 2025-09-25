@@ -1,6 +1,7 @@
 # OPEN AND PROCESS DATA
 import os
 import pandas as pd
+import numpy as np
 
 # to compare strings
 from thefuzz import fuzz
@@ -44,7 +45,7 @@ for name, sub_dataset in dataset.groupby(['¿En qué quincena has estado?','¿En
         for key in moni_num_comments[0].keys():
             dict_names[name][key] = []
 
-    # iterate the keys (questions)
+    # iterate the keys (questions) to fill the dict_name dictiionary
     for idx_1, set in enumerate(moni_num_comments):
         # select the keys from the dictionary
         keys_list = []
@@ -53,13 +54,17 @@ for name, sub_dataset in dataset.groupby(['¿En qué quincena has estado?','¿En
                 if fuzz.partial_ratio(key, name) > 80:
                     keys_list.append(key)
         for idx_2, key in enumerate(keys_list):
-            for idx_3, question in enumerate(set.keys()):          
+            for idx_3, question in enumerate(set.keys()): 
+                for key_question in dict_names[key].keys():
+                    if fuzz.partial_ratio(key_question, question) > 90:  # las preguntas repetidas no está exactamente igual escritas
+                        question = key_question
+                        break
                 dict_names[key][question].append(set.values.tolist()[idx_2][idx_3])
 
-        print()
+    # iterate dict_name to compute the numerical average
+    for name in dict_names.keys():
+        for question in dict_names[name].keys():
+            mean = np.mean(dict_names[name][question])
+            dict_names[name][question] = mean
+    print()
 
-print(dataset.keys()) # all questions
-peques_1q = {}
-for quincena, grupo in zip(dataset['¿En qué quincena has estado?'], dataset['¿En qué grupo has estado?']):
-    if quincena == 'Primera quincena' and  grupo == 'Peques':
-        print()

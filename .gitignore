@@ -8,5 +8,5 @@ resultados/
 __pycache__/
 
 # virtual environment
-venv_venture
+.venv_venture/
 
