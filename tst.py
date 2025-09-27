@@ -1,9 +1,14 @@
 import os
 import pandas as pd
 import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Loading environmnet variables
+load_dotenv() 
+API_KEY= os.getenv('API_KEY_GEMINI') 
 
 # Configuración de la API de Gemini
-genai.configure(api_key = "")
+genai.configure(api_key = API_KEY)
 
 # Modelo que usaremos
 MODEL = "gemini-1.5-flash"

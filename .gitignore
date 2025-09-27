@@ -1,6 +1,6 @@
 # to ignore files 
 *.xlsx
-.secret_keys
+*.env
 
 # to ignore folders
 evaluaciones/

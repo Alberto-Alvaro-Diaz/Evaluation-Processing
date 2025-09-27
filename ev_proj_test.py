@@ -1,9 +1,14 @@
 import os
 import pandas as pd
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Loading environmnet variables
+load_dotenv() 
+API_KEY = os.getenv('API_KEY_OPEN') 
 
 # Inicializar cliente de OpenAI
-client = OpenAI(api_key="")
+client = OpenAI(api_key = API_KEY)
 
 # Carpeta donde están los ficheros Excel
 INPUT_FOLDER = "evaluaciones"
