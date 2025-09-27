@@ -56,10 +56,11 @@ if __name__ == "__main__":
         # call pdf rutine
         for name_moni, dict_num in dict_names_num.items():
             comentario = []
-            for open_question in dict_names_open[name_moni]:
-                comentario.append(f"{open_question}\n {"\n".join(dict_names_open[name_moni][open_question])}")
+            for open_question, comment_open_list in dict_names_open[name_moni].items():
+                comment_open_list = [ x for x in comment_open_list if not (isinstance(x, float) and np.isnan(x)) ]
+                comentario.append(f"<b>{open_question}</b><br/> {"<br/>".join(comment_open_list)}")
 
-            str_comentario = "\n".join(comentario)
+            str_comentario = "<br/><br/>".join(comentario)
             creating_pdf(name_moni, dict_num, str_comentario, output_path)
 
         print()

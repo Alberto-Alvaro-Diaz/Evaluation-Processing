@@ -1,5 +1,6 @@
 from thefuzz import fuzz
 import unicodedata
+import re
 
 # --- Función de normalización ---
 def normalizar(texto):
@@ -10,8 +11,12 @@ def normalizar(texto):
     )
     return texto
 
+# --- Función para validar nombres (solo letras y espacios) ---
+def es_valido(nombre: str) -> bool:
+    return bool(re.fullmatch(r"[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+", nombre))
+
 # --- Función para agrupar nombres similares ---
-def nombres_repetidos(listas, umbral=85, min_repeticiones=2):
+def nombres_repetidos(listas, umbral = 85, min_repeticiones = 2):
     # Paso 1: aplanar lista
     todos = [nombre for sublista in listas for nombre in sublista]
 
@@ -43,6 +48,7 @@ def nombres_repetidos(listas, umbral=85, min_repeticiones=2):
     for grupo in grupos:
         if len(grupo) >= min_repeticiones:
             representante = max(grupo, key=len)  # el más largo como representativo
-            unicos.append(representante)
+            if es_valido(representante):  # solo nombres con letras
+                unicos.append(representante)
 
     return unicos
